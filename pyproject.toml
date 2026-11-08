@@ -1,0 +1,59 @@
+# pyproject.toml is the single "settings file" for this Python project.
+# uv reads it to know which Python version and which libraries to install.
+# Run `uv sync` and uv builds a private environment (.venv/) from it.
+
+[project]
+name = "bdb27"
+version = "0.1.0"
+description = "NFL Big Data Bowl 2027 (Combine to NFL Performance), Open track, solo entry."
+readme = "README.md"
+requires-python = ">=3.11"
+# Libraries the project needs to run. Exact versions get pinned in uv.lock.
+dependencies = [
+    "numpy",
+    "pandas",
+    "polars",
+    "pyarrow",
+    "scipy",
+    "scikit-learn",
+    "statsmodels",
+    "matplotlib",
+    "seaborn",
+    "plotly",
+    "jupyterlab",
+    "jupytext",
+]
+
+# Tools used while developing, not needed to run the analysis.
+# `uv sync` installs this group by default.
+[dependency-groups]
+dev = [
+    "ruff",
+    "pytest",
+    "pre-commit",
+]
+
+# How `src/bdb27` is packaged so notebooks and tests can `import bdb27`.
+[build-system]
+requires = ["uv_build>=0.8,<0.12"]
+build-backend = "uv_build"
+
+# Ruff: linter and formatter (one fast tool instead of flake8 + black + isort).
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# E/F = core errors, I = import order, B = likely bugs, UP = modern syntax, NPY = numpy pitfalls
+select = ["E", "F", "I", "B", "UP", "NPY"]
+
+[tool.ruff.lint.per-file-ignores]
+# Notebook .py twins (jupytext) often have late imports and long lines.
+"notebooks/*.py" = ["E402", "E501"]
+
+# Pytest: where tests live and where to find the package.
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"

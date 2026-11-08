@@ -1,0 +1,30 @@
+# Data: never commit. Raw files live in data/raw (about 2.3 GB) and stay local.
+data/
+
+# Python / environments
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Caches
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+# Notebooks are paired with .py files via jupytext. Keep the .py (reviewable
+# diffs) and drop the .ipynb outputs unless you deliberately export one.
+notebooks/*.ipynb
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Secrets
+.env
+kaggle.json

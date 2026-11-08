@@ -1,0 +1,2 @@
+# Every notebook in this folder is automatically paired .ipynb <-> .py (percent format).
+formats = "ipynb,py:percent"
