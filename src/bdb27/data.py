@@ -27,8 +27,13 @@ def csv_to_parquet(csv_path: Path, out_dir: Path = DATA_INTERIM, overwrite: bool
     out_path = out_dir / f"{csv_path.stem}.parquet"
     if out_path.exists() and not overwrite:
         return out_path
-    # infer_schema_length=10_000 is a compromise; check dtypes after conversion.
-    pl.scan_csv(csv_path, infer_schema_length=10_000).sink_parquet(out_path)
+    # The raw files use the text "NA" for missing values, and infer_schema_length=None reads
+    # the whole file to decide column types, so sparse columns (e.g. rush_yards) get the
+    # right type; try_parse_dates turns ISO date/time text into Date/Datetime
+    # (docs/decisions/0002).
+    pl.scan_csv(
+        csv_path, infer_schema_length=None, null_values=["NA"], try_parse_dates=True
+    ).sink_parquet(out_path)
     return out_path
 
 
